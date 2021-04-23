@@ -1,53 +1,31 @@
-import Head from 'next/head'
-import { styled } from '../stitches.config'
-import StitchesLogo from '../components/StitchesLogo'
+import Head from "next/head";
+import { styled } from "../stitches.config";
+import { QueryClientProvider, QueryClient } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { getWeather } from "../services/weather";
+import Weather from "../components/Weather";
 
-const Box = styled('div', {})
+const queryClient = new QueryClient();
 
-const Text = styled('p', {
-  fontFamily: '$system',
-  color: '$hiContrast',
-})
+const Container = styled("div", {
+  padding: "1rem",
+});
 
-const Link = styled('a', {
-  fontFamily: '$system',
-  textDecoration: 'none',
-  color: '$purple600',
-})
-
-const Container = styled('div', {
-  marginX: 'auto',
-  paddingX: '$3',
-
-  variants: {
-    size: {
-      '1': {
-        maxWidth: '300px',
-      },
-      '2': {
-        maxWidth: '585px',
-      },
-      '3': {
-        maxWidth: '865px',
-      },
-    },
-  },
-})
-
-export default function Home() {
+export default function Home({ weather }) {
   return (
-    <Box css={{ paddingY: '$6' }}>
+    <QueryClientProvider client={queryClient}>
       <Head>
-        <title>Use Stitches with Next.js</title>
+        <title>Weather</title>
       </Head>
-      <Container size={{ '@initial': '1', '@bp1': '2' }}>
-        <StitchesLogo />
-        <Text as="h1">Hello, from Stitches.</Text>
-        <Text>
-          For full documentation, visit{' '}
-          <Link href="https://stitches.dev">stitches.dev</Link>.
-        </Text>
+      <Container>
+        <Weather weather={weather} />
       </Container>
-    </Box>
-  )
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
+}
+
+export async function getServerProps() {
+  const weather = await getWeather();
+  return { props: { weather } };
 }
