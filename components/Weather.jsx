@@ -1,52 +1,115 @@
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { getWeather } from "../services/weather";
-import { styled } from "../stitches.config";
+import { useState, useEffect } from "react";
+import { useQuery, useQueryClient } from "react-query";
+import { getLocation, getCity } from "../services/weather";
+import {
+  Container,
+  Cities,
+  Current,
+  NextDays,
+  InputContainer,
+  Input,
+  Button,
+  List,
+} from "./styles";
 
-import { global } from "../stitches.config.js";
-
-const globalStyles = global({
-  body: { margin: 0, backgroundColor: "$grey800", color: "$grey100" },
-});
-
-const Input = styled("input", {
-  padding: "1rem",
-  backgroundColor: "$dark",
-  color: "$green500",
-  border: "none",
-});
-
-const Weather = ({ weather }) => {
+const Weather = ({ location }) => {
+  const [city, setCity] = useState();
+  const [query, setQuery] = useState("");
+  const [cities, setCities] = useState([]);
   const [lat, setLat] = useState("39.74362");
   const [lon, setLon] = useState("-8.80705");
-  const [city, setCity] = useState();
-  const { isLoading, isError, data, error } = useQuery(
-    "first",
-    () => getWeather(lat, lon),
-    { initialData: weather, refetchInterval: 60000 }
+
+  const queryLocation = useQuery(
+    [lat, lon],
+    async () => await getLocation(lat, lon),
+    {
+      initialData: location,
+    }
   );
 
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
+  const queryCity = useQuery(query, async () => await getCity(query), {
+    enabled: false,
+    onSuccess: (e) => {
+      setLat(e?.coord.lat || lat);
+      setLon(e?.coord.lon || lon);
+    },
+  });
 
-  const handleChange = (city) => {
-    setCity(city);
-    console.log(city);
+  const handleInput = (e) => {
+    setCity(e.target.value);
   };
 
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
-  globalStyles();
+  const addCity = () => {
+    setCities((old) => [...old, city]);
+    setQuery(city);
+  };
+
+  const showCity = (item) => {
+    setQuery(item);
+  };
+
+  const removeCity = (item) => {
+    setCities(cities.filter((e) => e !== item));
+  };
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((e) => {
+      setLat(e.coords.latitude);
+      setLon(e.coords.longitude);
+    });
+  }, []);
+
+  useEffect(async () => {
+    await queryLocation.refetch();
+  }, [lat, lon]);
+
+  useEffect(async () => {
+    await queryCity.refetch();
+  }, [query]);
+
   return (
-    <div>
-      <Input
-        placeholder="City Name..."
-        onChange={(e) => handleChange(e.target.value)}
-      />
-      <pre>Data: {JSON.stringify(data, null, 2)}</pre>
-    </div>
+    <Container>
+      <Cities>
+        <InputContainer>
+          <Input placeholder="Add Cities" onChange={handleInput} />
+          <Button onClick={() => addCity()}>+</Button>
+        </InputContainer>
+        <List>
+          <h1>List of Cities</h1>
+          {cities.map((item) => (
+            <li key={item}>
+              <p>{item}</p>
+              <button onClick={() => showCity(item)}>Show ></button>
+              <button onClick={() => removeCity(item)}>Remove x</button>
+            </li>
+          ))}
+        </List>
+      </Cities>
+
+      <Current>
+        <h1>Current day</h1>
+        <h2>{queryLocation.data?.current.weather[0].main}</h2>
+        {queryCity.data?.name ? queryCity.data.name : "Leiria"}
+        <img
+          src={`http://openweathermap.org/img/wn/${queryLocation.data?.current.weather[0].icon}.png`}
+          alt="weather status icon"
+        />
+      </Current>
+      <NextDays>
+        <h1>Next Days</h1>
+        {queryLocation.data?.daily.map((e, i) => (
+          <>
+            <span>
+              {e.weather[0].main} {}
+            </span>
+            <img
+              src={`http://openweathermap.org/img/wn/${e.weather[0].icon}.png`}
+              alt="weather status icon"
+            />
+          </>
+        ))}
+      </NextDays>
+    </Container>
   );
 };
 

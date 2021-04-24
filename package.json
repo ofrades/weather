@@ -9,9 +9,7 @@
   "dependencies": {
     "@stitches/react": "latest",
     "axios": "^0.21.1",
-    "eslint-plugin-prettier": "^3.4.0",
     "next": "latest",
-    "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-query": "^3.13.11"
@@ -19,6 +17,9 @@
   "license": "MIT",
   "devDependencies": {
     "eslint": "^7.24.0",
+    "prettier": "^2.2.1",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.23.2"
   }
 }

@@ -1,24 +1,23 @@
+import React from "react";
 import Head from "next/head";
 import { styled } from "../stitches.config";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { getWeather } from "../services/weather";
-import Weather from "../components/Weather";
+import { getLocation } from "../services/weather";
+import Layout from "../components/Layout";
 
 const queryClient = new QueryClient();
 
-const Container = styled("div", {
-  padding: "1rem",
-});
+const Container = styled("div", {});
 
-export default function Home({ weather }) {
+export default function Home({ location }) {
   return (
     <QueryClientProvider client={queryClient}>
       <Head>
         <title>Weather</title>
       </Head>
       <Container>
-        <Weather weather={weather} />
+        <Layout location={location} />
       </Container>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
@@ -26,6 +25,6 @@ export default function Home({ weather }) {
 }
 
 export async function getServerProps() {
-  const weather = await getWeather();
-  return { props: { weather } };
+  const location = await getLocation();
+  return { props: { location } };
 }
