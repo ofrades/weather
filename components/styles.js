@@ -132,7 +132,7 @@ export const RemoveButton = styled("button", {
   },
 });
 
-export const Current = styled("div", {
+export const CurrentContainer = styled("div", {
   display: "flex",
   backgroundColor: "$dark",
   padding: "$3",
