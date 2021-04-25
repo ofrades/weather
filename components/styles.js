@@ -1,32 +1,43 @@
 import { styled } from "../stitches.config";
 
 export const Container = styled("div", {
-  display: "flex",
-  justifyContent: "space-between",
+  display: "grid",
+  justifyContent: "space-evenly",
   alignItems: "start",
-  flexWrap: "wrap",
+  gridTemplateAreas: "'list current' 'next next'",
+  height: "100vh",
+  width: "100vw",
 });
 
 export const Cities = styled("div", {
+  gridArea: "list",
   padding: "1rem",
   backgroundColor: "$dark",
-  minWidth: "400px",
   alignSelf: "center",
   justifyContent: "center",
+  minWidth: "400px",
+  maxHeight: "600px",
+  overflow: "auto",
+  borderRadius: "5px",
 });
 
 export const Current = styled("div", {
+  gridArea: "current",
   display: "flex",
+  backgroundColor: "$dark",
   padding: "1rem",
   flexDirection: "column",
   alignSelf: "center",
   justifyContent: "center",
   minWidth: "400px",
-  backgroundColor: "$dark",
+  height: "600px",
+  borderRadius: "5px",
 });
 
 export const NextDays = styled("div", {
-  display: "flex",
+  gridArea: "next",
+  display: "fixed",
+  bottom: "0",
   padding: "1rem",
   flexDirection: "row",
   "& h1": {},
@@ -34,6 +45,7 @@ export const NextDays = styled("div", {
   justifyContent: "center",
   backgroundColor: "$dark",
   minWidth: "100%",
+  borderRadius: "5px",
 });
 
 export const InputContainer = styled("div", {
@@ -43,17 +55,29 @@ export const InputContainer = styled("div", {
 
 export const Input = styled("input", {
   padding: "1rem",
+  fontWeight: "bold",
   width: "100%",
   backgroundColor: "$grey800",
   color: "$green500",
   border: "none",
+  outline: "none",
+  borderWidth: "0px",
+  borderRadius: "5px",
 });
 
 export const Button = styled("button", {
   padding: "1rem",
-  backgroundColor: "$dark",
+  position: "relative",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: "$grey800",
   color: "$green500",
   border: "none",
+  height: "3rem",
+  width: "5rem",
+  left: "-0.5rem",
+  borderRadius: "5px",
   "&:hover": {
     backgroundColor: "$green500",
     color: "$dark",

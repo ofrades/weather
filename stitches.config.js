@@ -59,6 +59,11 @@ export const { theme, css, styled, global, getCssString } = createCss({
     fonts: {
       system: "system-ui",
     },
+    radii: {
+      1: "0",
+      2: "2px",
+      3: "5px",
+    },
   },
   utils: {
     marginX: (config) => (value) => ({
@@ -79,8 +84,9 @@ export const { theme, css, styled, global, getCssString } = createCss({
     }),
   },
   media: {
-    bp1: "@media (min-width: 520px)",
-    bp2: "@media (min-width: 900px)",
+    sm: "(min-width: 640px)",
+    md: "(min-width: 768px)",
+    lg: "(min-width: 1024px)",
   },
 });
 
