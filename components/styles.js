@@ -1,107 +1,159 @@
 import { styled } from "../stitches.config";
 
 export const Container = styled("div", {
-  display: "grid",
-  justifyContent: "space-evenly",
-  alignItems: "start",
-  gridTemplateAreas: "'list current' 'next next'",
-  height: "100vh",
-  width: "100vw",
+  display: "flex",
+  flexDirection: "column",
+  "@sm": {
+    justifyContent: "start",
+  },
+  "@md": {
+    justifyContent: "center",
+  },
+  alignItems: "center",
+  height: "100%",
+  width: "100%",
+  minWidth: "100vw",
+  minHeight: "100vh",
 });
 
-export const Cities = styled("div", {
-  gridArea: "list",
-  padding: "1rem",
-  backgroundColor: "$dark",
-  alignSelf: "center",
-  justifyContent: "center",
-  minWidth: "400px",
-  maxHeight: "600px",
-  overflow: "auto",
-  borderRadius: "5px",
-});
-
-export const Current = styled("div", {
-  gridArea: "current",
+export const Card = styled("div", {
   display: "flex",
   backgroundColor: "$dark",
   padding: "1rem",
   flexDirection: "column",
-  alignSelf: "center",
-  justifyContent: "center",
-  minWidth: "400px",
-  height: "600px",
-  borderRadius: "5px",
+  width: "400px",
+  maxWidth: "94%",
+  height: "50%",
+  boxShadow:
+    "0 1rem 1rem 0 rgba(0, 0, 0, 0.1), 0 1rem 1rem 0 rgba(0, 0, 0, 0.1)",
 });
 
-export const NextDays = styled("div", {
-  gridArea: "next",
-  display: "fixed",
-  bottom: "0",
-  padding: "1rem",
-  flexDirection: "row",
-  "& h1": {},
-  alignSelf: "center",
-  justifyContent: "center",
+export const Loading = styled("div", {
+  display: "flex",
   backgroundColor: "$dark",
-  minWidth: "100%",
-  borderRadius: "5px",
+  padding: "1rem",
+  flexDirection: "column",
+  width: "400px",
+  maxWidth: "94%",
+  height: "200px",
+  boxShadow:
+    "0 1rem 1rem 0 rgba(0, 0, 0, 0.1), 0 1rem 1rem 0 rgba(0, 0, 0, 0.1)",
 });
 
 export const InputContainer = styled("div", {
   display: "flex",
-  padding: "0.1rem",
+  justifyContent: "space-between",
+  alignItems: "center",
+  width: "100%",
 });
 
 export const Input = styled("input", {
-  padding: "1rem",
-  fontWeight: "bold",
   width: "100%",
-  backgroundColor: "$grey800",
+  padding: "$2",
+  height: "2rem",
+  fontWeight: "bold",
+  backgroundColor: "$grey900",
   color: "$green500",
   border: "none",
   outline: "none",
   borderWidth: "0px",
-  borderRadius: "5px",
+  "&:hover": {
+    backgroundColor: "$grey800",
+  },
 });
 
-export const Button = styled("button", {
-  padding: "1rem",
+export const AddCity = styled("div", {
   position: "relative",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
   backgroundColor: "$grey800",
   color: "$green500",
-  border: "none",
-  height: "3rem",
-  width: "5rem",
-  left: "-0.5rem",
-  borderRadius: "5px",
+  border: "1px solid $dark",
+  outline: "none",
+  "& a": {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "$2",
+    height: "2rem",
+    width: "2rem",
+    border: "none",
+  },
   "&:hover": {
     backgroundColor: "$green500",
     color: "$dark",
   },
 });
 
+export const CityTitle = styled("h1", {
+  textAlign: "center",
+  color: "$yellow500",
+});
+
+export const CurrentWeather = styled("h2", {
+  textAlign: "center",
+  color: "$grey500",
+});
+
 export const List = styled("div", {
-  backgroundColor: "$dark",
-  margin: "0",
+  padding: "$3",
   "& li": {
     listStyle: "none",
     color: "$grey100",
-    padding: "0.4rem",
-    margin: "0.1rem",
     backgroundColor: "$grey800",
-    "& button": {
-      backgroundColor: "$green700",
-      padding: "0.3rem",
-      margin: "0.3rem",
-      border: "none",
-      "&:hover": {
-        backgroundColor: "$dark",
-        color: "$green700",
-      },
-    },
+    display: "flex",
+    justifyContent: "space-between",
+    borderRadius: "$2",
+    padding: "$2",
+    margin: "$2 0",
+  },
+});
+
+export const AddButton = styled("button", {
+  backgroundColor: "$green700",
+  padding: "$1",
+  margin: "$1",
+  border: "none",
+  width: "100%",
+  borderRadius: "$2",
+  "&:hover": {
+    backgroundColor: "$dark",
+    color: "$green700",
+  },
+});
+
+export const RemoveButton = styled("button", {
+  backgroundColor: "$red500",
+  padding: "$1",
+  margin: "$1",
+  border: "none",
+  borderRadius: "$2",
+  "&:hover": {
+    backgroundColor: "$dark",
+    color: "$red500",
+  },
+});
+
+export const Current = styled("div", {
+  display: "flex",
+  backgroundColor: "$dark",
+  padding: "$3",
+  flexDirection: "column",
+  justifyContent: "center",
+  borderRadius: "$2",
+  "& img": {
+    alignSelf: "center",
+    width: "50%",
+  },
+});
+
+export const NextDays = styled("div", {
+  display: "flex",
+  flexDirection: "row",
+  backgroundColor: "$grey800",
+  padding: "$3",
+  "& div": {
+    borderRadius: "$2",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
 });
