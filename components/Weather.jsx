@@ -1,123 +1,108 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { getLocation, getCity } from "../services/weather";
+import { global } from "../stitches.config.js";
+
 import {
   Container,
   Card,
   CityTitle,
   CurrentWeather,
-  Current,
+  CurrentContainer,
   NextDays,
-  InputContainer,
-  Input,
-  AddCity,
   List,
   AddButton,
   RemoveButton,
   Loading,
 } from "./styles";
+import Search from "./Search";
+import ListCities from "./ListCities";
 
-const Weather = ({ location }) => {
-  const [city, setCity] = useState();
-  const [query, setQuery] = useState("");
-  const [cities, setCities] = useState(["Leiria"]);
-  const [lat, setLat] = useState("39.74362");
-  const [lon, setLon] = useState("-8.80705");
-  const date = new Date();
+const globalStyles = global({
+  body: { margin: 0, backgroundColor: "$grey800", color: "$grey100" },
+});
 
-  const queryLocation = useQuery(
-    [lat, lon],
+const Weather = () => {
+  const [searchQuery, setSearchQuery] = useState();
+  const [arrCities, setArrCities] = useState([]);
+  const [lat, setLat] = useState();
+  const [lon, setLon] = useState();
+
+  const queryByLocation = useQuery(
+    ["location", searchQuery],
     async () => await getLocation(lat, lon),
     {
-      initialData: location,
-      onSuccess: (e) => {
-        console.log("queryLocation", e);
-      },
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
     }
   );
 
-  const queryCity = useQuery(query, async () => await getCity(query), {
-    enabled: false,
-    onSuccess: (e) => {
-      console.log("queryCity", e);
-      setLat(e ? e.coord.lat : lat);
-      setLon(e ? e.coord.lon : lon);
-      setCity(e ? e.name : city);
-    },
-  });
+  const queryByCity = useQuery(
+    ["city", searchQuery],
+    async () => await getCity(searchQuery),
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
 
-  const handleInput = (e) => {
-    setCity(e.target.value);
-  };
-
-  const addCity = () => {
-    setCities((oldArr) => [...oldArr, city]);
-    setQuery(city);
-  };
-
-  const showCity = (city) => {
-    setQuery(city);
-  };
-
-  const removeCity = (item) => {
-    setCities(cities.filter((city) => city !== item));
-  };
-
+  /**
+   * Used to get users location
+   * and give an name
+   */
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((e) => {
       setLat(e.coords.latitude);
       setLon(e.coords.longitude);
+      setSearchQuery("Your Location");
     });
   }, []);
 
+  /**
+   * Change latitude and longitude if
+   * new city is searched
+   */
   useEffect(async () => {
-    await queryLocation.refetch();
-  }, [lat, lon]);
+    setLat(queryByCity.data?.coord.lat);
+    setLon(queryByCity.data?.coord.lon);
+  }, [queryByCity.isSuccess]);
 
-  useEffect(async () => {
-    await queryCity.refetch();
-  }, [query]);
-
-  if (queryLocation.isLoading)
+  if (queryByLocation.isLoading)
     return (
       <Container>
         <Loading>Loading...</Loading>
       </Container>
     );
-  if (queryLocation.isError)
-    return "An error has occurred: " + queryLocation.error.message;
-  if (queryCity.isLoading)
+  if (queryByLocation.isError)
+    return "An error has occurred: " + queryByLocation.error.message;
+  if (queryByCity.isLoading)
     return (
       <Container>
         <Loading>Loading...</Loading>
       </Container>
     );
-  if (queryCity.isError)
-    return "An error has occurred: " + queryCity.error.message;
+  if (queryByCity.isError)
+    return "An error has occurred: " + queryByCity.error.message;
+  globalStyles();
   return (
     <Container>
       <Card>
-        <InputContainer>
-          <Input placeholder="Add Cities" onChange={handleInput} />
-          <AddCity onClick={() => addCity()}>
-            <a>+</a>
-          </AddCity>
-        </InputContainer>
+        <Search setArrCities={setArrCities} setSearchQuery={setSearchQuery} />
 
-        <Current>
+        <CurrentContainer>
           <CityTitle>
-            {queryCity.data?.name ? queryCity.data.name : "Leiria"}
+            {queryByCity.data?.name ? queryByCity.data.name : searchQuery}
           </CityTitle>
           <CurrentWeather>
-            {queryLocation.data?.current.weather[0].main}
+            {queryByLocation.data?.current.weather[0].main}
           </CurrentWeather>
           <img
-            src={`http://openweathermap.org/img/wn/${queryLocation.data?.current.weather[0].icon}.png`}
+            src={`http://openweathermap.org/img/wn/${queryByLocation.data?.current.weather[0].icon}@4x.png`}
             alt="current weather icon"
           />
           <NextDays>
             Next hours
-            {queryLocation.data?.hourly
+            {queryByLocation.data?.hourly
               .filter((e, i) => i < 7)
               .map((e) => (
                 <div key={e}>
@@ -131,7 +116,7 @@ const Weather = ({ location }) => {
           </NextDays>
           <NextDays>
             Next days
-            {queryLocation.data?.daily
+            {queryByLocation.data?.daily
               .filter((e, i) => i < 7)
               .map((e, i) => (
                 <div key={e}>
@@ -144,17 +129,12 @@ const Weather = ({ location }) => {
                 </div>
               ))}
           </NextDays>
-        </Current>
-        <List>
-          {cities.map((item) => (
-            <li key={item}>
-              <AddButton onClick={() => showCity(item)}>{item}</AddButton>
-              <RemoveButton onClick={() => removeCity(item)}>
-                Remove
-              </RemoveButton>
-            </li>
-          ))}
-        </List>
+        </CurrentContainer>
+        <ListCities
+          arrCities={arrCities}
+          setArrCities={setArrCities}
+          setSearchQuery={setSearchQuery}
+        />
       </Card>
     </Container>
   );
