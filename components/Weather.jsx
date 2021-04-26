@@ -10,9 +10,6 @@ import {
   CurrentWeather,
   CurrentContainer,
   NextDays,
-  List,
-  AddButton,
-  RemoveButton,
   Loading,
 } from "./styles";
 import Search from "./Search";
@@ -23,8 +20,12 @@ const globalStyles = global({
 });
 
 const Weather = () => {
-  const [searchQuery, setSearchQuery] = useState();
-  const [arrCities, setArrCities] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("Leiria");
+  const [arrCities, setArrCities] = useState(
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("cities"))
+      : []
+  );
   const [lat, setLat] = useState();
   const [lon, setLon] = useState();
 
@@ -32,7 +33,6 @@ const Weather = () => {
     ["location", searchQuery],
     async () => await getLocation(lat, lon),
     {
-      refetchOnMount: false,
       refetchOnWindowFocus: false,
     }
   );
@@ -41,7 +41,6 @@ const Weather = () => {
     ["city", searchQuery],
     async () => await getCity(searchQuery),
     {
-      refetchOnMount: false,
       refetchOnWindowFocus: false,
     }
   );
@@ -54,9 +53,20 @@ const Weather = () => {
     navigator.geolocation.getCurrentPosition((e) => {
       setLat(e.coords.latitude);
       setLon(e.coords.longitude);
+      setArrCities((oldArr) => [...oldArr, "Your Location"]);
       setSearchQuery("Your Location");
     });
   }, []);
+
+  /**
+   * Update localStorage
+   */
+  useEffect(() => {
+    localStorage.setItem(
+      "cities",
+      JSON.stringify(arrCities ? arrCities : ["Leiria"])
+    );
+  }, [arrCities]);
 
   /**
    * Change latitude and longitude if
@@ -130,11 +140,13 @@ const Weather = () => {
               ))}
           </NextDays>
         </CurrentContainer>
-        <ListCities
-          arrCities={arrCities}
-          setArrCities={setArrCities}
-          setSearchQuery={setSearchQuery}
-        />
+        {arrCities && (
+          <ListCities
+            arrCities={arrCities}
+            setArrCities={setArrCities}
+            setSearchQuery={setSearchQuery}
+          />
+        )}
       </Card>
     </Container>
   );

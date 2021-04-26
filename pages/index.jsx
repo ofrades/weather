@@ -3,10 +3,25 @@ import Head from "next/head";
 import { styled } from "../stitches.config";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { getLocation, getCity } from "../services/weather";
 import Weather from "../components/Weather";
 
-const queryClient = new QueryClient();
+import { persistQueryClient } from "react-query/persistQueryClient-experimental";
+import { createLocalStoragePersistor } from "react-query/createLocalStoragePersistor-experimental";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+    },
+  },
+});
+
+const localStoragePersistor = createLocalStoragePersistor();
+
+persistQueryClient({
+  queryClient,
+  persistor: localStoragePersistor,
+});
 
 const Container = styled("div", {});
 
