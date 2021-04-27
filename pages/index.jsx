@@ -5,23 +5,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import Weather from "../components/Weather";
 
-import { persistQueryClient } from "react-query/persistQueryClient-experimental";
-import { createLocalStoragePersistor } from "react-query/createLocalStoragePersistor-experimental";
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      cacheTime: 1000 * 60 * 60 * 24, // 24 hours
-    },
-  },
-});
-
-const localStoragePersistor = createLocalStoragePersistor();
-
-persistQueryClient({
-  queryClient,
-  persistor: localStoragePersistor,
-});
+const queryClient = new QueryClient();
 
 const Container = styled("div", {});
 
