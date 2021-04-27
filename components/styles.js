@@ -133,12 +133,11 @@ export const RemoveButton = styled("button", {
 export const CurrentContainer = styled("div", {
   display: "flex",
   backgroundColor: "$grey800",
-  padding: "$3",
   flexDirection: "column",
   justifyContent: "center",
+  alignItems: "center",
   borderRadius: "$2",
   "& img": {
-    alignSelf: "center",
     width: "50%",
   },
 });
@@ -146,14 +145,17 @@ export const CurrentContainer = styled("div", {
 export const NextDays = styled("div", {
   display: "flex",
   flexDirection: "row",
-  backgroundColor: "$dark",
+  backgroundColor: "$grey500",
   overflowX: "auto",
-  padding: "$3",
   fontSize: "0.75rem",
   "& div": {
     borderRadius: "$2",
+    width: "50px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    justifyContent: "center",
+    border: "2px solid $dark",
+    minWidth: "10rem",
   },
 });

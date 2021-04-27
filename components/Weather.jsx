@@ -100,7 +100,7 @@ const Weather = () => {
         <Current
           name={queryByCity.data.name}
           searchQuery={searchQuery}
-          current={queryByLocation.data?.current}
+          data={queryByLocation.data}
         />
         <Next daily={queryByLocation.data?.daily} locale={locale} />
         {arrCities && (
