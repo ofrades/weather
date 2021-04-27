@@ -10,6 +10,7 @@
     "@babel/runtime": "^7.13.17",
     "@stitches/react": "latest",
     "axios": "^0.21.1",
+    "dayjs": "^1.10.4",
     "next": "latest",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

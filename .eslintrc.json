@@ -12,6 +12,7 @@
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
         "prettier"
     ],
     "parserOptions": {
@@ -22,7 +23,7 @@
         "sourceType": "module"
     },
     "rules": {
-        "prettier/prettier": "error"
-
+        "react/prop-types": 0,
+        "prettier/prettier": 2
     }
 }
