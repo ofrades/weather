@@ -1,9 +1,13 @@
 import axios from "axios";
 
-export const getLocation = async (lat = "39.74362", lon = "-8.80705") => {
+export const getLocation = async (
+  lat = "39.74362",
+  lon = "-8.80705",
+  lang = "pt"
+) => {
   try {
     const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_API_KEY}`
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&lang=${lang}&units=metric&appid=${process.env.NEXT_PUBLIC_API_KEY}`
     );
     return response.data;
   } catch (error) {
