@@ -66,7 +66,7 @@ const Weather = () => {
    * Change latitude and longitude if
    * new city is searched
    */
-  useEffect(async () => {
+  useEffect(() => {
     setLat(queryByCity.data?.coord.lat);
     setLon(queryByCity.data?.coord.lon);
     setLocale(queryByCity.data?.sys.country);
@@ -82,12 +82,10 @@ const Weather = () => {
     );
   }
 
-  if (queryByCity.isError || queryByLocation.isError) {
+  if (queryByLocation.isError) {
     return (
       <Container>
-        <Card>
-          {queryByCity.error?.message || queryByLocation.error?.message}
-        </Card>
+        <Card>{queryByLocation.error?.message}</Card>
       </Container>
     );
   }
