@@ -21,7 +21,6 @@ export const Card = styled("div", {
   backgroundColor: "$dark",
   padding: "1rem",
   flexDirection: "column",
-  width: "400px",
   maxWidth: "94%",
   height: "50%",
   boxShadow:
@@ -94,7 +93,6 @@ export const CurrentWeather = styled("h2", {
 });
 
 export const List = styled("div", {
-  padding: "$3",
   "& li": {
     listStyle: "none",
     color: "$grey100",
@@ -134,7 +132,7 @@ export const RemoveButton = styled("button", {
 
 export const CurrentContainer = styled("div", {
   display: "flex",
-  backgroundColor: "$dark",
+  backgroundColor: "$grey800",
   padding: "$3",
   flexDirection: "column",
   justifyContent: "center",
@@ -148,8 +146,10 @@ export const CurrentContainer = styled("div", {
 export const NextDays = styled("div", {
   display: "flex",
   flexDirection: "row",
-  backgroundColor: "$grey800",
+  backgroundColor: "$dark",
+  overflowX: "auto",
   padding: "$3",
+  fontSize: "0.75rem",
   "& div": {
     borderRadius: "$2",
     display: "flex",
