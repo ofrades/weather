@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { InputContainer, Input, AddCity, Loading } from "./styles";
+import { InputContainer, Input, AddCity } from "./styles";
 
 const Search = ({ setArrCities, setSearchQuery }) => {
   const [cityFromInput, setCityFromInput] = useState();

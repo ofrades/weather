@@ -1,5 +1,5 @@
 import React from "react";
-import { List, AddButton, RemoveButton, Loading } from "./styles";
+import { List, AddButton, RemoveButton } from "./styles";
 
 const ListCities = ({ arrCities, setArrCities, setSearchQuery }) => {
   const showCity = (item) => {
