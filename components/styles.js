@@ -18,10 +18,9 @@ export const Container = styled("div", {
 
 export const Card = styled("div", {
   display: "flex",
-  backgroundColor: "$dark",
-  padding: "1rem",
   flexDirection: "column",
-  maxWidth: "94%",
+  maxWidth: "100%",
+  padding: 0,
   height: "50%",
   boxShadow:
     "0 1rem 1rem 0 rgba(0, 0, 0, 0.1), 0 1rem 1rem 0 rgba(0, 0, 0, 0.1)",
@@ -30,10 +29,10 @@ export const Card = styled("div", {
 export const Loading = styled("div", {
   display: "flex",
   backgroundColor: "$dark",
-  padding: "1rem",
   flexDirection: "column",
   width: "400px",
-  maxWidth: "94%",
+  maxWidth: "100%",
+  padding: 0,
   height: "200px",
   boxShadow:
     "0 1rem 1rem 0 rgba(0, 0, 0, 0.1), 0 1rem 1rem 0 rgba(0, 0, 0, 0.1)",
@@ -43,7 +42,6 @@ export const InputContainer = styled("div", {
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  width: "100%",
 });
 
 export const Input = styled("input", {
@@ -51,21 +49,20 @@ export const Input = styled("input", {
   padding: "$2",
   height: "2rem",
   fontWeight: "bold",
-  backgroundColor: "$grey900",
+  backgroundColor: "$dark",
   color: "$green500",
+  marginLeft: "1px",
   border: "none",
   outline: "none",
-  borderWidth: "0px",
   "&:hover": {
-    backgroundColor: "$grey800",
+    backgroundColor: "$dark",
   },
 });
 
 export const AddCity = styled("div", {
   position: "relative",
-  backgroundColor: "$grey800",
-  color: "$green500",
-  border: "1px solid $dark",
+  backgroundColor: "$green700",
+  color: "$dark",
   outline: "none",
   "& a": {
     display: "flex",
@@ -93,6 +90,7 @@ export const CurrentWeather = styled("h2", {
 });
 
 export const List = styled("div", {
+  padding: "$2",
   "& li": {
     listStyle: "none",
     color: "$grey100",
@@ -132,6 +130,7 @@ export const RemoveButton = styled("button", {
 
 export const CurrentContainer = styled("div", {
   display: "flex",
+  padding: "$2",
   backgroundColor: "$grey800",
   flexDirection: "column",
   justifyContent: "center",
@@ -155,7 +154,7 @@ export const NextDays = styled("div", {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    border: "2px solid $dark",
+    border: "3px solid $grey800",
     minWidth: "10rem",
   },
 });
