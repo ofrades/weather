@@ -1,6 +1,6 @@
 import React from "react";
 import { CityTitle, CurrentWeather, CurrentContainer } from "./styles";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { theme } from "../stitches.config.js";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -17,6 +17,7 @@ const Current = ({ name, searchQuery, data }) => {
     datasets: [
       {
         label: "Temperature",
+        type: "line",
         data:
           data.hourly &&
           data?.hourly.filter((e, i) => i % 2 !== 0).map((e) => e.temp),
@@ -42,7 +43,7 @@ const Current = ({ name, searchQuery, data }) => {
           src={`http://openweathermap.org/img/wn/${data?.current?.weather[0].icon}@4x.png`}
           alt="current weather icon"
         />
-        <Line
+        <Bar
           data={graph}
           options={{
             responsive: true,
