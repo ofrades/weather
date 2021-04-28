@@ -2,7 +2,7 @@ import React from "react";
 import { NextDays } from "./styles";
 import dayjs from "dayjs";
 
-const Next = ({ daily, locale }) => {
+const Next = ({ daily, locale, metrics }) => {
   dayjs.locale(locale);
   return (
     <NextDays>
@@ -15,7 +15,14 @@ const Next = ({ daily, locale }) => {
           />
           <span>{e.weather[0].description}</span>
           <p>
-            🌡️ {Math.round(e.temp.min)}° {Math.round(e.temp.max)}°
+            {metrics == "f"
+              ? `
+🌡️ ${Math.round((e.temp.min - 273.15) * 1.8 + 32)}° ${Math.round(
+                  (e.temp.max - 273.15) * 1.8 + 32
+                )}°`
+              : `🌡️ ${Math.round(e.temp.min - 273.15)}° ${Math.round(
+                  e.temp.max - 273.15
+                )}°`}
           </p>
           <p>{e.rain ? "💧" + e.rain + "%" : "☀️"}</p>
         </div>

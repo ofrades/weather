@@ -3,7 +3,14 @@ import { useQuery } from "react-query";
 import { getLocation, getCity } from "../services/weather";
 import { global } from "../stitches.config.js";
 
-import { Container, Card, Loading } from "./styles";
+import {
+  Container,
+  Card,
+  Loading,
+  ConvertTemp,
+  Celsius,
+  Fahrenheit,
+} from "./styles";
 import Search from "./Search";
 import ListCities from "./ListCities";
 import Current from "./Current";
@@ -25,6 +32,7 @@ const Weather = () => {
   const [lat, setLat] = useState();
   const [lon, setLon] = useState();
   const [locale, setLocale] = useState();
+  const [metrics, setMetrics] = useState("c");
 
   const queryByLocation = useQuery(
     ["location", searchQuery],
@@ -90,12 +98,25 @@ const Weather = () => {
     <Container>
       <Card>
         <Search setArrCities={setArrCities} setSearchQuery={setSearchQuery} />
+        <ConvertTemp metrics={metrics}>
+          <Celsius metrics={metrics} onClick={() => setMetrics("c")}>
+            Celsius
+          </Celsius>
+          <Fahrenheit metrics={metrics} onClick={() => setMetrics("f")}>
+            Fahrenheit
+          </Fahrenheit>
+        </ConvertTemp>
         <Current
           name={queryByCity.data.name}
           searchQuery={searchQuery}
           data={queryByLocation.data}
+          metrics={metrics}
         />
-        <Next daily={queryByLocation.data?.daily} locale={locale} />
+        <Next
+          metrics={metrics}
+          daily={queryByLocation.data?.daily}
+          locale={locale}
+        />
         {arrCities && (
           <ListCities
             arrCities={arrCities}

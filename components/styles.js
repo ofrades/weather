@@ -142,9 +142,9 @@ export const CurrentContainer = styled("div", {
 });
 
 export const NextDays = styled("div", {
+  backgroundColor: "$dark",
   display: "flex",
   flexDirection: "row",
-  backgroundColor: "$grey500",
   overflowX: "auto",
   fontSize: "0.75rem",
   "& div": {
@@ -156,5 +156,51 @@ export const NextDays = styled("div", {
     justifyContent: "center",
     border: "3px solid $grey800",
     minWidth: "10rem",
+  },
+});
+
+export const ConvertTemp = styled("div", {
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  overflowX: "auto",
+});
+
+export const Celsius = styled("span", {
+  variants: {
+    metrics: {
+      c: { backgroundColor: "$grey700", color: "$green500" },
+      f: { backgroundColor: "$dark", color: "$grey500" },
+    },
+  },
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: "3px solid $grey800",
+  width: "100%",
+  color: "$yellow400",
+  cursor: "pointer",
+  "&:hover": {
+    backgroundColor: "$green500",
+    color: "$dark",
+  },
+});
+export const Fahrenheit = styled("span", {
+  variants: {
+    metrics: {
+      c: { backgroundColor: "$dark", color: "$grey500" },
+      f: { backgroundColor: "$grey700", color: "$green500" },
+    },
+  },
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: "3px solid $grey800",
+  width: "100%",
+  cursor: "pointer",
+  "&:hover": {
+    backgroundColor: "$green500",
+    color: "$dark",
   },
 });
