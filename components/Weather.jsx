@@ -36,21 +36,24 @@ const Weather = () => {
 
   const queryByCity = useQuery(
     ["city", searchQuery],
-    async () => await getCity(searchQuery),
+    async () => await getCity(searchQuery, lat, lon),
     {
       refetchOnWindowFocus: false,
+      onSuccess: async (e) => {
+        setLat(e.coord.lat);
+        setLon(e.coord.lon);
+        setLocale(e.sys.country);
+      },
     }
   );
 
   /**
-   * Used to get users location
-   * and give an name
+   * Get users location
    */
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((e) => {
       setLat(e.coords.latitude);
       setLon(e.coords.longitude);
-      setArrCities((oldArr) => [...oldArr, "Your Location"]);
       setSearchQuery("Your Location");
     });
   }, []);
@@ -61,16 +64,6 @@ const Weather = () => {
   useEffect(() => {
     localStorage.setItem("cities", JSON.stringify(arrCities));
   }, [arrCities]);
-
-  /**
-   * Change latitude and longitude if
-   * new city is searched
-   */
-  useEffect(() => {
-    setLat(queryByCity.data?.coord.lat);
-    setLon(queryByCity.data?.coord.lon);
-    setLocale(queryByCity.data?.sys.country);
-  }, [queryByCity.isSuccess]);
 
   if (queryByCity.isLoading || queryByLocation.isLoading) {
     return (
@@ -94,9 +87,8 @@ const Weather = () => {
     <Container>
       <Card>
         <Search setArrCities={setArrCities} setSearchQuery={setSearchQuery} />
-
         <Current
-          name={queryByCity.data?.name}
+          name={queryByCity.data.name}
           searchQuery={searchQuery}
           data={queryByLocation.data}
         />

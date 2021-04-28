@@ -6,20 +6,27 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
 dayjs.extend(utc);
+
 const Current = ({ name, searchQuery, data }) => {
   const graph = {
-    labels: data?.hourly
-      .filter((e, i) => i % 2 !== 0 && i < 20)
-      .map((e) => new Date(e.dt * 1000).getHours("HH")),
+    labels:
+      data.hourly &&
+      data?.hourly
+        .filter((e, i) => i % 2 !== 0 && i < 20)
+        .map((e) => new Date(e.dt * 1000).getHours("HH")),
     datasets: [
       {
         label: "Temperature",
-        data: data?.hourly.filter((e, i) => i % 2 !== 0).map((e) => e.temp),
+        data:
+          data.hourly &&
+          data?.hourly.filter((e, i) => i % 2 !== 0).map((e) => e.temp),
         borderColor: theme.colors.yellow500.value,
       },
       {
         label: "Humidity",
-        data: data?.hourly.filter((e, i) => i % 2 !== 0).map((e) => e.humidity),
+        data:
+          data.hourly &&
+          data?.hourly.filter((e, i) => i % 2 !== 0).map((e) => e.humidity),
         borderColor: theme.colors.blue500.value,
       },
     ],
@@ -27,12 +34,12 @@ const Current = ({ name, searchQuery, data }) => {
 
   return (
     <CurrentContainer>
-      <CityTitle>{name ? name : searchQuery}</CityTitle>
+      <CityTitle>{name}</CityTitle>
       <CurrentWeather>
         <p>Now</p>
-        <p>🌡️{data?.current.temp}°</p>
+        <p>🌡️{data?.current?.temp}°</p>
         <img
-          src={`http://openweathermap.org/img/wn/${data?.current.weather[0].icon}@4x.png`}
+          src={`http://openweathermap.org/img/wn/${data?.current?.weather[0].icon}@4x.png`}
           alt="current weather icon"
         />
         <Line

@@ -6,7 +6,7 @@ const Next = ({ daily, locale }) => {
   dayjs.locale(locale);
   return (
     <NextDays>
-      {daily.map((e, i) => (
+      {daily?.map((e, i) => (
         <div key={i}>
           <p>🗓️ {dayjs().add(i, "day").format("MM/DD")}</p>
           <img
