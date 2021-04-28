@@ -9,7 +9,9 @@ const Search = ({ setArrCities, setSearchQuery }) => {
   };
 
   const addCity = () => {
-    setArrCities((oldArr) => [...oldArr, cityFromInput]);
+    setArrCities((oldArr) =>
+      oldArr.includes(cityFromInput) ? [...oldArr] : [...oldArr, cityFromInput]
+    );
     setSearchQuery(cityFromInput);
   };
 
