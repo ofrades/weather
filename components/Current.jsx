@@ -37,12 +37,12 @@ const Current = ({ name, searchQuery, data }) => {
     <CurrentContainer>
       <CityTitle>{name}</CityTitle>
       <CurrentWeather>
-        <p>Now</p>
-        <p>🌡️{data?.current?.temp}°</p>
+        <p>🌡️{Math.round(data?.current?.temp)}°</p>
         <img
-          src={`http://openweathermap.org/img/wn/${data?.current?.weather[0].icon}@4x.png`}
+          src={`https://openweathermap.org/img/wn/${data?.current?.weather[0].icon}@4x.png`}
           alt="current weather icon"
         />
+        <p>{data.current.weather[0].description}</p>
         <Bar
           data={graph}
           options={{

@@ -43,6 +43,9 @@ const Weather = () => {
         setLat(e.coord.lat);
         setLon(e.coord.lon);
         setLocale(e.sys.country);
+        setArrCities((oldArr) =>
+          oldArr.includes(e.name) ? [...oldArr] : [...oldArr, e.name]
+        );
       },
     }
   );

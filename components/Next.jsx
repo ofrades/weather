@@ -10,9 +10,10 @@ const Next = ({ daily, locale }) => {
         <div key={i}>
           <p>🗓️ {dayjs().add(i, "day").format("MM/DD")}</p>
           <img
-            src={`http://openweathermap.org/img/wn/${e.weather[0].icon}.png`}
+            src={`https://openweathermap.org/img/wn/${e.weather[0].icon}.png`}
             alt="next days icons"
           />
+          <span>{e.weather[0].description}</span>
           <p>
             🌡️ {Math.round(e.temp.min)}° {Math.round(e.temp.max)}°
           </p>
