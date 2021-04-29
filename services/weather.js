@@ -11,7 +11,7 @@ export const getLocation = async (
     );
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
 
@@ -32,6 +32,6 @@ export const getCity = async (city = "Leiria", lat, lon) => {
       return response.data;
     }
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
