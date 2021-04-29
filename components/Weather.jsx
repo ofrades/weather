@@ -69,7 +69,6 @@ const Weather = () => {
         setArrCities((oldArr) =>
           oldArr.includes(e.name) ? [...oldArr] : [...oldArr, e.name]
         );
-        localStorage.setItem("cities", JSON.stringify(arrCities));
       },
       onError: async () => {
         // If fails remove searchQuery from cities array

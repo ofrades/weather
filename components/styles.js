@@ -12,13 +12,17 @@ export const Container = styled("div", {
   alignItems: "center",
   height: "100%",
   minHeight: "100%",
-  width: "100%",
-  minWidth: "100vw",
 });
 
 export const Card = styled("div", {
   display: "flex",
   flexDirection: "column",
+  "@sm": {
+    width: "100vw",
+  },
+  "@md": {
+    width: "50vw",
+  },
   minWidth: "100vw",
   maxWidth: "100%",
   padding: 0,

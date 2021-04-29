@@ -1,13 +1,10 @@
 import React from "react";
 import Head from "next/head";
-import { styled } from "../stitches.config";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import Weather from "../components/Weather";
 
 const queryClient = new QueryClient();
-
-const Container = styled("div", {});
 
 export default function Home() {
   return (
@@ -15,9 +12,7 @@ export default function Home() {
       <Head>
         <title>Weather</title>
       </Head>
-      <Container>
-        <Weather />
-      </Container>
+      <Weather />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
