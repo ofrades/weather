@@ -12,11 +12,11 @@ const ListCities = ({ arrCities, setArrCities, setSearchQuery }) => {
 
   return (
     <List>
-      {arrCities.map((item) => (
-        <li key={item}>
+      {arrCities.map((item, i) => (
+        <div key={i}>
           <AddButton onClick={() => showCity(item)}>{item}</AddButton>
           <RemoveButton onClick={() => removeCity(item)}>Remove</RemoveButton>
-        </li>
+        </div>
       ))}
     </List>
   );

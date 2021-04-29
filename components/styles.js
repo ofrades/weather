@@ -1,4 +1,4 @@
-import { styled } from "../stitches.config";
+import { styled, keyframes } from "../stitches.config";
 
 export const Container = styled("div", {
   display: "flex",
@@ -11,31 +11,35 @@ export const Container = styled("div", {
   },
   alignItems: "center",
   height: "100%",
+  minHeight: "100%",
   width: "100%",
   minWidth: "100vw",
-  minHeight: "100vh",
 });
 
 export const Card = styled("div", {
   display: "flex",
   flexDirection: "column",
+  minWidth: "100vw",
   maxWidth: "100%",
   padding: 0,
+  minHeight: "50%",
   height: "50%",
   boxShadow:
     "0 1rem 1rem 0 rgba(0, 0, 0, 0.1), 0 1rem 1rem 0 rgba(0, 0, 0, 0.1)",
 });
 
-export const Loading = styled("div", {
+export const Status = styled("div", {
   display: "flex",
-  backgroundColor: "$dark",
-  flexDirection: "column",
-  width: "400px",
-  maxWidth: "100%",
-  padding: 0,
-  height: "200px",
-  boxShadow:
-    "0 1rem 1rem 0 rgba(0, 0, 0, 0.1), 0 1rem 1rem 0 rgba(0, 0, 0, 0.1)",
+  backgroundColor: "$grey800",
+  justifyContent: "center",
+  alignItemss: "center",
+  variants: {
+    status: {
+      error: { backgroundColor: "$red600", color: "$grey100" },
+      loading: { backgroundColor: "$blue600", color: "$grey100" },
+      success: { backgroundColor: "$gree600", color: "$grey100" },
+    },
+  },
 });
 
 export const InputContainer = styled("div", {
@@ -48,6 +52,7 @@ export const Input = styled("input", {
   width: "100%",
   padding: "$2",
   height: "2rem",
+  minHeight: "2rem",
   fontWeight: "bold",
   backgroundColor: "$dark",
   color: "$green500",
@@ -69,7 +74,9 @@ export const AddCity = styled("div", {
     alignItems: "center",
     justifyContent: "center",
     padding: "$2",
+    minHeight: "2rem",
     height: "2rem",
+    minWidth: "2rem",
     width: "2rem",
     border: "none",
   },
@@ -91,20 +98,16 @@ export const CurrentWeather = styled("h2", {
 
 export const List = styled("div", {
   padding: "$2",
-  "& li": {
-    listStyle: "none",
-    color: "$grey100",
-    backgroundColor: "$grey800",
+  "& div": {
     display: "flex",
     justifyContent: "space-between",
-    borderRadius: "$2",
-    padding: "$2",
-    margin: "$2 0",
+    margin: "0.5rem",
   },
 });
 
 export const AddButton = styled("button", {
   backgroundColor: "$green700",
+  color: "$dark",
   padding: "$1",
   margin: "$1",
   border: "none",
@@ -118,6 +121,7 @@ export const AddButton = styled("button", {
 
 export const RemoveButton = styled("button", {
   backgroundColor: "$red500",
+  color: "$dark",
   padding: "$1",
   margin: "$1",
   border: "none",
@@ -137,18 +141,20 @@ export const CurrentContainer = styled("div", {
   alignItems: "center",
   borderRadius: "$2",
   "& img": {
+    minWidth: "50%",
     width: "50%",
   },
 });
 
 export const NextDays = styled("div", {
-  backgroundColor: "$dark",
+  padding: "$2",
   display: "flex",
   flexDirection: "row",
   overflowX: "auto",
   fontSize: "0.75rem",
   "& div": {
     borderRadius: "$2",
+    backgroundColor: "$dark",
     width: "50px",
     display: "flex",
     flexDirection: "column",
@@ -203,4 +209,15 @@ export const Fahrenheit = styled("span", {
     backgroundColor: "$green500",
     color: "$dark",
   },
+});
+
+const rotate = keyframes({
+  from: { transform: "rotate(0deg)" },
+  to: { transform: "rotate(360deg)" },
+});
+
+export const LoadingIcon = styled("i", {
+  position: "absolute",
+  fontStyle: "normal",
+  animation: `${rotate} 2s linear infinite`,
 });
