@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useIsFetching } from "react-query";
 import { getLocation, getCity } from "../services/weather";
 import { global } from "../stitches.config.js";
-
 import {
   Container,
   Card,
-  Loading,
+  Status,
+  LoadingIcon,
   ConvertTemp,
   Celsius,
   Fahrenheit,
 } from "./styles";
+import Loader from "./Loader";
 import Search from "./Search";
 import ListCities from "./ListCities";
 import Current from "./Current";
@@ -21,8 +22,10 @@ const globalStyles = global({
 });
 
 const Weather = () => {
+  const isFetching = useIsFetching();
   const [searchQuery, setSearchQuery] = useState("Leiria");
   const [arrCities, setArrCities] = useState(
+    // Get cities array from localStorage
     typeof window !== "undefined"
       ? localStorage.getItem("cities") !== null
         ? JSON.parse(localStorage.getItem("cities"))
@@ -34,32 +37,54 @@ const Weather = () => {
   const [locale, setLocale] = useState();
   const [metrics, setMetrics] = useState("c");
 
+  /**
+   * Search by lat and lon
+   * Update auto if lat or lon are changed
+   */
   const queryByLocation = useQuery(
-    ["location", searchQuery],
+    ["location", lat, lon],
     async () => await getLocation(lat, lon),
     {
       refetchOnWindowFocus: false,
     }
   );
 
+  /**
+   * Search city name
+   * Search also by lat and lon if
+   * searchQuery == Your Location
+   * this will do a reverse call
+   * Update auto if searchQuery is changed
+   */
   const queryByCity = useQuery(
     ["city", searchQuery],
     async () => await getCity(searchQuery, lat, lon),
     {
       refetchOnWindowFocus: false,
-      onSuccess: async (e) => {
+      retry: false,
+      onSuccess: (e) => {
         setLat(e.coord.lat);
         setLon(e.coord.lon);
         setLocale(e.sys.country);
         setArrCities((oldArr) =>
           oldArr.includes(e.name) ? [...oldArr] : [...oldArr, e.name]
         );
+        localStorage.setItem("cities", JSON.stringify(arrCities));
+      },
+      onError: async () => {
+        // If fails remove searchQuery from cities array
+        setArrCities(arrCities.filter((city) => city != searchQuery));
+        // reverse to user location if error
+        // wait 3 secs just to show error to user
+        setTimeout(() => {
+          setSearchQuery("Your Location");
+        }, 3000);
       },
     }
   );
 
   /**
-   * Get users location
+   * Ask user location
    */
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((e) => {
@@ -69,54 +94,47 @@ const Weather = () => {
     });
   }, []);
 
-  /**
-   * Update localStorage
-   */
-  useEffect(() => {
-    localStorage.setItem("cities", JSON.stringify(arrCities));
-  }, [arrCities]);
-
-  if (queryByCity.isLoading || queryByLocation.isLoading) {
-    return (
-      <Container>
-        <Card>
-          <Loading>Loading...</Loading>
-        </Card>
-      </Container>
-    );
-  }
-
-  if (queryByLocation.isError) {
-    return (
-      <Container>
-        <Card>{queryByLocation.error?.message}</Card>
-      </Container>
-    );
-  }
   globalStyles();
   return (
     <Container>
       <Card>
-        <Search setArrCities={setArrCities} setSearchQuery={setSearchQuery} />
-        <ConvertTemp metrics={metrics}>
-          <Celsius metrics={metrics} onClick={() => setMetrics("c")}>
-            Celsius
-          </Celsius>
-          <Fahrenheit metrics={metrics} onClick={() => setMetrics("f")}>
-            Fahrenheit
-          </Fahrenheit>
-        </ConvertTemp>
-        <Current
-          name={queryByCity.data.name}
-          searchQuery={searchQuery}
-          data={queryByLocation.data}
-          metrics={metrics}
+        <Status status={queryByCity.status}>
+          {queryByCity.isError && <p>{searchQuery} error fetching...</p>}
+        </Status>
+        <Search
+          setArrCities={setArrCities}
+          setSearchQuery={setSearchQuery}
+          isFetching={isFetching}
         />
-        <Next
-          metrics={metrics}
-          daily={queryByLocation.data?.daily}
-          locale={locale}
-        />
+        {queryByLocation.isLoading || queryByCity.isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <ConvertTemp metrics={metrics}>
+              <Celsius metrics={metrics} onClick={() => setMetrics("c")}>
+                Celsius
+              </Celsius>
+              <Fahrenheit metrics={metrics} onClick={() => setMetrics("f")}>
+                Fahrenheit
+              </Fahrenheit>
+            </ConvertTemp>
+            <Current
+              name={
+                queryByCity.data?.name
+                  ? queryByCity.data.name
+                  : queryByLocation.data?.name
+              }
+              searchQuery={searchQuery}
+              data={queryByLocation.data}
+              metrics={metrics}
+            />
+            <Next
+              metrics={metrics}
+              daily={queryByLocation.data?.daily}
+              locale={locale}
+            />
+          </>
+        )}
         {arrCities && (
           <ListCities
             arrCities={arrCities}

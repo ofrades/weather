@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { InputContainer, Input, AddCity } from "./styles";
+import { InputContainer, Input, AddCity, LoadingIcon } from "./styles";
 
-const Search = ({ setArrCities, setSearchQuery }) => {
+const Search = ({ setArrCities, setSearchQuery, isFetching }) => {
   const [cityFromInput, setCityFromInput] = useState();
 
   const handleInput = (e) => {
@@ -13,13 +13,26 @@ const Search = ({ setArrCities, setSearchQuery }) => {
       oldArr.includes(cityFromInput) ? [...oldArr] : [...oldArr, cityFromInput]
     );
     setSearchQuery(cityFromInput);
+    setCityFromInput("");
   };
 
   return (
     <InputContainer>
-      <Input placeholder="Add Cities" onChange={handleInput} />
+      <Input
+        placeholder="Add Cities"
+        value={cityFromInput}
+        type="text"
+        onChange={handleInput}
+      />
+
       <AddCity onClick={() => addCity()}>
-        <a>+</a>
+        {isFetching !== 0 ? (
+          <a>
+            <LoadingIcon>⏳</LoadingIcon>
+          </a>
+        ) : (
+          <a>+</a>
+        )}
       </AddCity>
     </InputContainer>
   );

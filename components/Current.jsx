@@ -9,31 +9,25 @@ dayjs.extend(utc);
 
 const Current = ({ name, data, metrics }) => {
   const graph = {
-    labels:
-      data.hourly &&
-      data?.hourly
-        .filter((e, i) => i % 2 !== 0 && i < 20)
-        .map((e) => new Date(e.dt * 1000).getHours("HH") + "h"),
+    labels: data?.hourly
+      .filter((e, i) => i % 2 !== 0 && i < 20)
+      .map((e) => new Date(e.dt * 1000).getHours("HH") + "h"),
     datasets: [
       {
         label: "Temperature",
         type: "line",
-        data:
-          data.hourly &&
-          data?.hourly
-            .filter((e, i) => i % 2 !== 0)
-            .map((e) =>
-              metrics == "f"
-                ? Math.round((e.temp - 273.15) * 1.8 + 32)
-                : Math.round(e.temp - 273.15)
-            ),
+        data: data?.hourly
+          .filter((e, i) => i % 2 !== 0)
+          .map((e) =>
+            metrics == "f"
+              ? Math.round((e.temp - 273.15) * 1.8 + 32)
+              : Math.round(e.temp - 273.15)
+          ),
         borderColor: theme.colors.yellow500.value,
       },
       {
         label: "Humidity",
-        data:
-          data.hourly &&
-          data?.hourly.filter((e, i) => i % 2 !== 0).map((e) => e.humidity),
+        data: data?.hourly.filter((e, i) => i % 2 !== 0).map((e) => e.humidity),
         borderColor: theme.colors.blue500.value,
       },
     ],
@@ -46,14 +40,14 @@ const Current = ({ name, data, metrics }) => {
         <p>
           {metrics == "f"
             ? `
-🌡️ ${Math.round((data.current.temp - 273.15) * 1.8 + 32)}°`
-            : `🌡️ ${Math.round(data.current.temp - 273.15)}°`}
+🌡️ ${Math.round((data?.current.temp - 273.15) * 1.8 + 32)}°`
+            : `🌡️ ${Math.round(data?.current.temp - 273.15)}°`}
         </p>
         <img
           src={`https://openweathermap.org/img/wn/${data?.current?.weather[0].icon}@4x.png`}
           alt="current weather icon"
         />
-        <p>{data.current.weather[0].description}</p>
+        <p>{data?.current.weather[0].description}</p>
         <Bar
           data={graph}
           options={{
