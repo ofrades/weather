@@ -35,19 +35,21 @@ const Current = ({ name, data, metrics }) => {
 
   return (
     <CurrentContainer>
-      <CityTitle>{name}</CityTitle>
-      <CurrentWeather>
-        <p>
-          {metrics == "f"
-            ? `
+      <CityTitle>
+        {name}
+        {metrics == "f"
+          ? `
 🌡️ ${Math.round((data?.current.temp - 273.15) * 1.8 + 32)}°`
-            : `🌡️ ${Math.round(data?.current.temp - 273.15)}°`}
-        </p>
+          : `🌡️ ${Math.round(data?.current.temp - 273.15)}°`}
+      </CityTitle>
+      <CurrentWeather>
         <img
+          title={data?.current.weather[0].description}
           src={`https://openweathermap.org/img/wn/${data?.current?.weather[0].icon}@4x.png`}
           alt="current weather icon"
         />
-        <p>{data?.current.weather[0].description}</p>
+        <br />
+        <em>{data?.current.weather[0].description}</em>
         <Bar
           data={graph}
           options={{

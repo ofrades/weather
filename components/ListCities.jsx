@@ -18,8 +18,12 @@ const ListCities = ({ arrCities, setArrCities, setSearchQuery }) => {
     <List>
       {arrCities.map((item, i) => (
         <div key={i}>
-          <AddButton onClick={() => showCity(item)}>{item}</AddButton>
-          <RemoveButton onClick={() => removeCity(item)}>Remove</RemoveButton>
+          <AddButton title="Show city" onClick={() => showCity(item)}>
+            {item}
+          </AddButton>
+          <RemoveButton title="Remove city" onClick={() => removeCity(item)}>
+            🗑️
+          </RemoveButton>
         </div>
       ))}
     </List>
