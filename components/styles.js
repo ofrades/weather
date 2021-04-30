@@ -25,6 +25,7 @@ export const Card = styled("div", {
   "@md": {
     maxWidth: "50vw",
   },
+  backgroundColor: "$grey800",
   width: "100%",
   padding: 0,
   height: "50%",
@@ -50,6 +51,7 @@ export const InputContainer = styled("div", {
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
+  padding: "0.5rem",
 });
 
 export const Input = styled("input", {
@@ -186,6 +188,7 @@ export const ConvertTemp = styled("div", {
   alignItems: "center",
   justifyContent: "center",
   overflowX: "auto",
+  padding: "0 0.5rem",
 });
 
 export const Celsius = styled("span", {
