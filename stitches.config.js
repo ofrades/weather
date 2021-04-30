@@ -11,6 +11,7 @@ export const {
   theme: {
     colors: {
       dark: "#2b2d35",
+      light: "#dddddd",
       grey100: "#dddcd3",
       grey200: "#b9b9b6",
       grey300: "#9c9e9d",
@@ -65,6 +66,9 @@ export const {
     },
     fonts: {
       system: "system-ui",
+      untitled: "Untitled Sans, apple-system, sans-serif",
+      serif: `'Cardo', serif`,
+      mono: `'JetBrains Mono', monospace`,
     },
     radii: {
       1: "0",
@@ -95,20 +99,4 @@ export const {
     md: "(min-width: 768px)",
     lg: "(min-width: 1024px)",
   },
-});
-
-export const darkTheme = theme("dark-theme", {
-  colors: {
-    hiContrast: "hsl(206,2%,93%)",
-    loContrast: "hsl(206,8%,8%)",
-
-    gray100: "hsl(206,8%,12%)",
-    gray200: "hsl(206,7%,14%)",
-    gray300: "hsl(206,7%,15%)",
-    gray400: "hsl(206,7%,24%)",
-    gray500: "hsl(206,7%,30%)",
-    gray600: "hsl(206,5%,53%)",
-  },
-  space: {},
-  fonts: {},
 });

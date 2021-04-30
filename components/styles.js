@@ -63,6 +63,7 @@ export const Input = styled("input", {
   marginLeft: "1px",
   border: "none",
   outline: "none",
+  fontFamily: "$system",
   "&:hover": {
     backgroundColor: "$dark",
   },
@@ -83,21 +84,12 @@ export const AddCity = styled("div", {
     minWidth: "2rem",
     width: "2rem",
     border: "none",
+    cursor: "pointer",
   },
   "&:hover": {
     backgroundColor: "$green500",
     color: "$dark",
   },
-});
-
-export const CityTitle = styled("h1", {
-  textAlign: "center",
-  color: "$yellow500",
-});
-
-export const CurrentWeather = styled("h2", {
-  textAlign: "center",
-  color: "$grey500",
 });
 
 export const List = styled("div", {
@@ -110,6 +102,7 @@ export const List = styled("div", {
 });
 
 export const AddButton = styled("button", {
+  fontFamily: "$system",
   backgroundColor: "$green700",
   color: "$dark",
   padding: "$1",
@@ -124,7 +117,7 @@ export const AddButton = styled("button", {
 });
 
 export const RemoveButton = styled("button", {
-  backgroundColor: "$red500",
+  backgroundColor: "$red600",
   color: "$dark",
   padding: "$1",
   margin: "$1",
@@ -144,10 +137,27 @@ export const CurrentContainer = styled("div", {
   justifyContent: "center",
   alignItems: "center",
   borderRadius: "$2",
+});
+
+export const CurrentWeather = styled("div", {
+  textAlign: "center",
+  color: "$grey500",
+  width: "90%",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  fontFamily: "$system",
   "& img": {
-    minWidth: "50%",
-    width: "50%",
+    width: "25%",
   },
+  "& canvas": {},
+});
+
+export const CityTitle = styled("h1", {
+  textAlign: "center",
+  fontFamily: "$serif",
+  color: "$yellow500",
+  fontSize: "2.5rem",
 });
 
 export const NextDays = styled("div", {
