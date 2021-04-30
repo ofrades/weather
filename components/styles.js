@@ -8,6 +8,8 @@ export const Container = styled("div", {
   },
   "@md": {
     justifyContent: "center",
+    backgroundColor: "$light",
+    padding: "4rem",
   },
   alignItems: "center",
   height: "100%",
@@ -18,15 +20,13 @@ export const Card = styled("div", {
   display: "flex",
   flexDirection: "column",
   "@sm": {
-    width: "100vw",
+    maxWidth: "100vw",
   },
   "@md": {
-    width: "50vw",
+    maxWidth: "50vw",
   },
-  minWidth: "100vw",
-  maxWidth: "100%",
+  width: "100%",
   padding: 0,
-  minHeight: "50%",
   height: "50%",
   boxShadow:
     "0 1rem 1rem 0 rgba(0, 0, 0, 0.1), 0 1rem 1rem 0 rgba(0, 0, 0, 0.1)",
@@ -166,6 +166,7 @@ export const NextDays = styled("div", {
   flexDirection: "row",
   overflowX: "auto",
   fontSize: "0.75rem",
+  backgroundColor: "$grey800",
   "& div": {
     borderRadius: "$2",
     backgroundColor: "$dark",
