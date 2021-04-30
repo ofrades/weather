@@ -6,7 +6,6 @@ import {
   Container,
   Card,
   Status,
-  LoadingIcon,
   ConvertTemp,
   Celsius,
   Fahrenheit,
@@ -18,7 +17,12 @@ import Current from "./Current";
 import Next from "./Next";
 
 const globalStyles = global({
-  body: { margin: 0, backgroundColor: "$grey800", color: "$grey100" },
+  body: {
+    margin: 0,
+    backgroundColor: "$grey800",
+    color: "$grey100",
+    fontFamily: "$mono",
+  },
 });
 
 const Weather = () => {
@@ -66,9 +70,6 @@ const Weather = () => {
         setLat(e.coord.lat);
         setLon(e.coord.lon);
         setLocale(e.sys.country);
-        setArrCities((oldArr) =>
-          oldArr.includes(e.name) ? [...oldArr] : [...oldArr, e.name]
-        );
       },
       onError: async () => {
         // If fails remove searchQuery from cities array
@@ -110,10 +111,18 @@ const Weather = () => {
         ) : (
           <>
             <ConvertTemp metrics={metrics}>
-              <Celsius metrics={metrics} onClick={() => setMetrics("c")}>
+              <Celsius
+                title="Change to Celsius"
+                metrics={metrics}
+                onClick={() => setMetrics("c")}
+              >
                 Celsius
               </Celsius>
-              <Fahrenheit metrics={metrics} onClick={() => setMetrics("f")}>
+              <Fahrenheit
+                title="Change to Fahrenheit"
+                metrics={metrics}
+                onClick={() => setMetrics("f")}
+              >
                 Fahrenheit
               </Fahrenheit>
             </ConvertTemp>
@@ -132,14 +141,14 @@ const Weather = () => {
               daily={queryByLocation.data?.daily}
               locale={locale}
             />
+            {arrCities && (
+              <ListCities
+                arrCities={arrCities}
+                setArrCities={setArrCities}
+                setSearchQuery={setSearchQuery}
+              />
+            )}
           </>
-        )}
-        {arrCities && (
-          <ListCities
-            arrCities={arrCities}
-            setArrCities={setArrCities}
-            setSearchQuery={setSearchQuery}
-          />
         )}
       </Card>
     </Container>
