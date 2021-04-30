@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { InputContainer, Input, AddCity, LoadingIcon } from "./styles";
 
 const Search = ({ setArrCities, setSearchQuery, isFetching }) => {
@@ -12,9 +12,16 @@ const Search = ({ setArrCities, setSearchQuery, isFetching }) => {
     setArrCities((oldArr) =>
       oldArr.includes(cityFromInput) ? [...oldArr] : [...oldArr, cityFromInput]
     );
-    setSearchQuery(cityFromInput);
-    setCityFromInput("");
   };
+
+  useEffect(() => {
+    if (cityFromInput?.length > 2) {
+      const delayDebounceFn = setTimeout(() => {
+        setSearchQuery(cityFromInput);
+      }, 1000);
+      return () => clearTimeout(delayDebounceFn);
+    }
+  }, [cityFromInput]);
 
   return (
     <InputContainer>
@@ -23,6 +30,9 @@ const Search = ({ setArrCities, setSearchQuery, isFetching }) => {
         value={cityFromInput}
         type="text"
         onChange={handleInput}
+        aria-label="Search"
+        aria-required="true"
+        autoFocus
       />
 
       <AddCity onClick={() => addCity()}>
@@ -31,7 +41,7 @@ const Search = ({ setArrCities, setSearchQuery, isFetching }) => {
             <LoadingIcon>⏳</LoadingIcon>
           </a>
         ) : (
-          <a>+</a>
+          <a title="Add to list">📋</a>
         )}
       </AddCity>
     </InputContainer>
