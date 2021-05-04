@@ -27,13 +27,13 @@ const globalStyles = global({
 
 const Weather = () => {
   const isFetching = useIsFetching();
-  const [searchQuery, setSearchQuery] = useState("Leiria");
+  const [searchQuery, setSearchQuery] = useState();
   const [arrCities, setArrCities] = useState(
     // Get cities array from localStorage
     typeof window !== "undefined"
       ? localStorage.getItem("cities") !== null
         ? JSON.parse(localStorage.getItem("cities"))
-        : ["Leiria"]
+        : []
       : []
   );
   const [lat, setLat] = useState();
@@ -70,6 +70,11 @@ const Weather = () => {
         setLat(e.coord.lat);
         setLon(e.coord.lon);
         setLocale(e.sys.country);
+        if (searchQuery == "Your Location") {
+          setArrCities((oldArr) =>
+            oldArr.includes(e.name) ? [...oldArr] : [...oldArr, e.name]
+          );
+        }
       },
       onError: async () => {
         // If fails remove searchQuery from cities array
