@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { CityTitle, CurrentWeather, CurrentContainer } from "./styles";
 import { Bar } from "react-chartjs-2";
 import { theme } from "../stitches.config.js";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import { useSpring, animated } from "react-spring";
 
 dayjs.extend(utc);
 
@@ -32,15 +33,24 @@ const Current = ({ name, data, metrics }) => {
       },
     ],
   };
+  const anim = useSpring({
+    temp:
+      metrics == "f"
+        ? Math.round((data?.current.temp - 273.15) * 1.8 + 32)
+        : Math.round(data?.current.temp - 273.15),
+    from: { temp: 0 },
+  });
 
   return (
     <CurrentContainer>
       <CityTitle>
-        {name}
-        {metrics == "f"
-          ? `
-🌡️ ${Math.round((data?.current.temp - 273.15) * 1.8 + 32)}°`
-          : `🌡️ ${Math.round(data?.current.temp - 273.15)}°`}
+        {name}{" "}
+        <span>
+          <animated.span style={anim}>
+            {anim.temp.interpolate((val) => Math.floor(val))}
+          </animated.span>
+          °
+        </span>
       </CityTitle>
       <CurrentWeather>
         <img

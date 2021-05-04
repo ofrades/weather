@@ -1,4 +1,5 @@
 import { styled, keyframes } from "../stitches.config";
+import { motion } from "framer-motion";
 
 export const Container = styled("div", {
   display: "flex",
@@ -16,7 +17,7 @@ export const Container = styled("div", {
   minHeight: "100%",
 });
 
-export const Card = styled("div", {
+export const Card = styled(motion.div, {
   display: "flex",
   flexDirection: "column",
   "@sm": {

@@ -97,7 +97,7 @@ const Weather = () => {
   globalStyles();
   return (
     <Container>
-      <Card>
+      <Card initial={{ scale: 0 }} animate={{ scale: 1 }}>
         <Status status={queryByCity.status}>
           {queryByCity.isError && <p>{searchQuery} error fetching...</p>}
         </Status>
