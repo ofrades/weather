@@ -8,6 +8,7 @@ const Next = ({ daily, locale, metrics }) => {
     <NextDays>
       {daily?.map((e, i) => (
         <div key={i}>
+          <h1>{dayjs().add(i, "day").format("ddd")}</h1>
           <h2>🗓️ {dayjs().add(i, "day").format("MM/DD")}</h2>
           <img
             src={`https://openweathermap.org/img/wn/${e.weather[0].icon}.png`}
